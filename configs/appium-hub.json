@@ -1,0 +1,12 @@
+// appium server -ka 800 --use-plugins=device-farm --config ./appium-hub.json -pa /wd/hub
+{
+    "server": {
+      "port": 44723,
+      "plugin": {
+        "device-farm": {
+          "platform": "both", //If both android and iOS devices/simulator/emulators needs to be considered
+
+        }
+      }
+    }
+  }

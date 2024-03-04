@@ -1,23 +1,21 @@
 FROM openjdk:18-jdk-slim
 
-LABEL maintainer "Amr Salem"
-
 ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /
 #=============================
-# Install Dependenices 
+# Install Dependenices
 #=============================
-SHELL ["/bin/bash", "-c"]   
+SHELL ["/bin/bash", "-c"]
 
 RUN apt update && apt install -y curl sudo wget unzip bzip2 libdrm-dev libxkbcommon-dev libgbm-dev libasound-dev libnss3 libxcursor1 libpulse-dev libxshmfence-dev xauth xvfb x11vnc fluxbox wmctrl libdbus-glib-1-2
 
 #==============================
 # Android SDK ARGS
 #==============================
-ARG ARCH="x86_64" 
-ARG TARGET="google_apis_playstore"  
-ARG API_LEVEL="34" 
+ARG ARCH="x86_64"
+ARG TARGET="google_apis_playstore"
+ARG API_LEVEL="33"
 ARG BUILD_TOOLS="34.0.0"
 ARG ANDROID_ARCH=${ANDROID_ARCH_DEFAULT}
 ARG ANDROID_API_LEVEL="android-${API_LEVEL}"
@@ -46,8 +44,8 @@ RUN wget https://dl.google.com/android/repository/${ANDROID_CMD} -P /tmp && \
 #============================================
 # Install required package using SDK manager
 #============================================
-RUN yes Y | sdkmanager --licenses 
-RUN yes Y | sdkmanager --verbose --no_https ${ANDROID_SDK_PACKAGES} 
+RUN yes Y | sdkmanager --licenses
+RUN yes Y | sdkmanager --verbose --no_https ${ANDROID_SDK_PACKAGES}
 
 #============================================
 # Create required emulator
@@ -66,9 +64,11 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash && \
     npm install -g npm && \
     npm i -g appium --unsafe-perm=true --allow-root && \
     appium driver install uiautomator2 && \
+    appium plugin install --source=npm appium-device-farm && \
+    appium plugin install --source=npm appium-dashboard && \
     exit 0 && \
     npm cache clean && \
-    apt-get remove --purge -y npm && \  
+    apt-get remove --purge -y npm && \
     apt-get autoremove --purge -y && \
     apt-get clean && \
     rm -Rf /tmp/* && rm -Rf /var/lib/apt/lists/*
@@ -79,7 +79,6 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash && \
 #===================
 ENV EMU=./start_emu.sh
 ENV EMU_HEADLESS=./start_emu_headless.sh
-ENV VNC=./start_vnc.sh
 ENV APPIUM=./start_appium.sh
 
 
@@ -93,8 +92,12 @@ ENV APPIUM_PORT=4723
 #=========================
 COPY . /
 
-RUN chmod a+x start_vnc.sh && \
-    chmod a+x start_emu.sh && \
+#=========================
+# Copying configs to root
+#=========================
+COPY ./configs/* /
+
+RUN chmod a+x start_emu.sh && \
     chmod a+x start_appium.sh && \
     chmod a+x start_emu_headless.sh
 
