@@ -102,6 +102,7 @@ RUN chmod a+x start_emu.sh && \
     chmod a+x start_appium.sh && \
     chmod a+x start_emu_headless.sh
 
+EXPOSE 4723
 #=======================
 # framework entry point
 #=======================
