@@ -1,11 +1,10 @@
-// appium server -ka 800 --use-plugins=device-farm --config ./appium-node.json -pa /wd/hub
 {
     "server": {
       "port": 44724,
       "plugin": {
         "device-farm": {
           "platform": "android",
-          "hub": "https://appium-hub:44723" //Add the hub host and port the appium server running in node machine.
+          "hub": "http://127.0.0.1:4723"
         }
       }
     }

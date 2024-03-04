@@ -29,17 +29,17 @@ ARG ANDROID_SDK_PACKAGES="${EMULATOR_PACKAGE} ${PLATFORM_VERSION} ${BUILD_TOOL} 
 #==============================
 # Set JAVA_HOME - SDK
 #==============================
-ENV ANDROID_SDK_ROOT=/opt/android
-ENV PATH "$PATH:$ANDROID_SDK_ROOT/cmdline-tools/tools:$ANDROID_SDK_ROOT/cmdline-tools/tools/bin:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/build-tools/${BUILD_TOOLS}"
+ENV ANDROID_HOME=/opt/android
+ENV PATH "$PATH:$ANDROID_HOME/cmdline-tools/tools:$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/${BUILD_TOOLS}"
 ENV DOCKER="true"
 
 #============================================
 # Install required Android CMD-line tools
 #============================================
 RUN wget https://dl.google.com/android/repository/${ANDROID_CMD} -P /tmp && \
-              unzip -d $ANDROID_SDK_ROOT /tmp/$ANDROID_CMD && \
-              mkdir -p $ANDROID_SDK_ROOT/cmdline-tools/tools && cd $ANDROID_SDK_ROOT/cmdline-tools &&  mv NOTICE.txt source.properties bin lib tools/  && \
-              cd $ANDROID_SDK_ROOT/cmdline-tools/tools && ls
+              unzip -d $ANDROID_HOME /tmp/$ANDROID_CMD && \
+              mkdir -p $ANDROID_HOME/cmdline-tools/tools && cd $ANDROID_HOME/cmdline-tools &&  mv NOTICE.txt source.properties bin lib tools/  && \
+              cd $ANDROID_HOME/cmdline-tools/tools && ls
 
 #============================================
 # Install required package using SDK manager
