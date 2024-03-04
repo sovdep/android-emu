@@ -63,6 +63,7 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash && \
     apt-get -qqy install nodejs && \
     npm install -g npm && \
     npm i -g appium --unsafe-perm=true --allow-root && \
+    npm i -g appium-doctor && \
     appium driver install uiautomator2 && \
     appium plugin install --source=npm appium-device-farm && \
     appium plugin install --source=npm appium-dashboard && \
